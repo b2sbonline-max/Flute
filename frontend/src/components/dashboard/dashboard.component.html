@@ -1,0 +1,62 @@
+<div class="dashboard-container" dir="rtl">
+  <nav class="navbar">
+    <div class="navbar-content">
+      <div class="navbar-brand"><h1>FLUTE CRM</h1></div>
+      <div class="navbar-user">
+        <span>{{ currentUser?.full_name || currentUser?.username }}</span>
+        <button class="btn btn-outline-light" (click)="logout()">התחרור</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main-content">
+    <div class="header">
+      <h2>טבלאות דינמיות</h2>
+      <button class="btn btn-primary" (click)="createTable()">+ יצירת טבלה</button>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+    <div *ngIf="loading" class="spinner">
+      <div class="spinner-border"></div>
+      <p>טוען...</p>
+    </div>
+
+    <div *ngIf="!loading" class="tables-grid">
+      <div *ngIf="tables.length === 0" class="empty-state">אין טבלאות</div>
+      <div *ngFor="let table of tables" class="table-card">
+        <div class="table-header">
+          <h3>{{ table.table_name_he }}</h3>
+        </div>
+        <div class="table-body">
+          <p><strong>שם:</strong> {{ table.table_name_en }}</p>
+          <p><strong>שדות:</strong> {{ table.fields.length }}</p>
+        </div>
+        <div class="table-actions">
+          <button class="btn btn-info" (click)="openTable(table)">פתח</button>
+          <button class="btn btn-danger" (click)="deleteTable(table)">מחיקה</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  .dashboard-container { min-height: 100vh; background: #f5f5f5; }
+  .navbar { background: #2c3e50; color: white; padding: 20px 0; }
+  .navbar-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; }
+  .main-content { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+  .header { display: flex; justify-content: space-between; margin-bottom: 30px; }
+  .alert-danger { background: #f8d7da; padding: 15px; margin-bottom: 20px; border-radius: 4px; }
+  .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+  .table-card { background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); }
+  .table-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; }
+  .table-body { padding: 20px; }
+  .table-actions { padding: 0 20px 20px; display: flex; gap: 10px; }
+  .btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; }
+  .btn-primary { background: #667eea; color: white; }
+  .btn-info { background: #3498db; color: white; flex: 1; }
+  .btn-danger { background: #e74c3c; color: white; flex: 1; }
+  .btn-outline-light { border: 1px solid white; color: white; background: transparent; }
+</style>
